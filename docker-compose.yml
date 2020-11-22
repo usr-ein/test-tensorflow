@@ -1,0 +1,11 @@
+version: '2.3'
+services:
+    test-tf:
+        image: sam1902/test-tensorflow:latest
+        # https://github.com/docker/compose/issues/6691#issuecomment-705995189
+        # Make sure the nvidia container toolkit is installed and add
+        # "runtimes": {"nvidia": { "path": "/usr/bin/nvidia-container-runtime","runtimeArgs": [] } }
+        # to your /etc/docker/daemon.json Docker Daemon config
+        # then sudo systemctl restart docker.service
+        runtime: nvidia
+        #runtime: runc
