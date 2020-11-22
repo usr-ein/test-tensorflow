@@ -82,7 +82,7 @@ push: pre-push do-push post-push
 do-push:
 	# Saves the image to a local file instead of pushing it to a docker repo
 	docker image save -o builds/$(USERNAME)_$(NAME)_$(VERSION).tar $(IMAGE):$(VERSION)
-	docker image save -o builds/$(USERNAME)_$(NAME)_latest.tar $(IMAGE):latest
+	cp builds/$(USERNAME)_$(NAME)_$(VERSION).tar builds/$(USERNAME)_$(NAME)_latest.tar
 
 snapshot: build push
 
