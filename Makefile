@@ -75,9 +75,14 @@ release: check-status check-release build push
 
 push: pre-push do-push post-push
 
+#do-push:
+#	docker push $(IMAGE):$(VERSION)
+#	docker push $(IMAGE):latest
+
 do-push:
-	docker push $(IMAGE):$(VERSION)
-	docker push $(IMAGE):latest
+	# Saves the image to a local file instead of pushing it to a docker repo
+	docker image save -o builds/$(USERNAME)_$(NAME)_$(VERSION).tar $(IMAGE):$(VERSION)
+	docker image save -o builds/$(USERNAME)_$(NAME)_latest.tar $(IMAGE):latest
 
 snapshot: build push
 
