@@ -1,0 +1,5 @@
+version: '2.3'
+services:
+    test-tf:
+        image: sam1902/test-tensorflow:latest
+        runtime: runc
