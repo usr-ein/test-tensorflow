@@ -25,6 +25,7 @@ RELEASE_SUPPORT := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))/.mak
 #IMAGE=$(REGISTRY_HOST)/$(USERNAME)/$(NAME)
 IMAGE=$(USERNAME)/$(NAME)
 
+RELEASE=$(shell . $(RELEASE_SUPPORT) ; getRelease)
 VERSION=$(shell . $(RELEASE_SUPPORT) ; getVersion)
 TAG=$(shell . $(RELEASE_SUPPORT); getTag)
 
@@ -75,14 +76,14 @@ release: check-status check-release build push
 
 push: pre-push do-push post-push
 
-#do-push:
-#	docker push $(IMAGE):$(VERSION)
-#	docker push $(IMAGE):latest
-
 do-push:
+	docker push $(IMAGE):$(VERSION)
+	docker push $(IMAGE):latest
+
+save:
 	# Saves the image to a local file instead of pushing it to a docker repo
-	docker image save -o builds/$(USERNAME)_$(NAME)_$(VERSION).tar $(IMAGE):$(VERSION)
-	cp builds/$(USERNAME)_$(NAME)_$(VERSION).tar builds/$(USERNAME)_$(NAME)_latest.tar
+	docker image save -o builds/$(USERNAME)_$(NAME)_$(RELEASE).tar $(IMAGE):$(RELEASE)
+	cp builds/$(USERNAME)_$(NAME)_$(RELEASE).tar builds/$(USERNAME)_$(NAME)_latest.tar
 
 snapshot: build push
 
